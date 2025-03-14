@@ -4,29 +4,79 @@ using System.Text;
 
 //var tests = File.ReadAllLines("./tests.txt").ToList();
 
-var nums = new [] { 2, 7, 11, 15 };
-var target = 9;
+var l1 = new ListNode(2,
+    new ListNode(4,
+        new ListNode(3)));
+var l2 = new ListNode(52,
+    new ListNode(6,
+        new ListNode(4)));
 
-Console.WriteLine(Leet.TwoSum(nums, target));
+Console.WriteLine(Leet.AddTwoNumbers(l1, l2));
 
 
 static class Leet
 {
-    public static int[] TwoSum(int[] nums, int target) {
-        int[] arr = new int[2];
-        for(int i = 0; i < nums.Length; i++)
+    public static ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode ret = new ListNode();
+        ListNode walker = ret;
+        int carry = 0;
+        while(l1.next != null && l2.next != null)
         {
-            for(int j = i + 1; j < nums.Length; j++)
+            walker.val = l1.val + l2.val + carry;
+            carry = walker.val / 10;
+            walker.val = walker.val % 10;
+            l1 = l1.next;
+            l2 = l2.next;
+            walker.next = new ListNode();
+            walker = walker.next;
+        }
+        walker.val = l1.val + l2.val + carry;
+        carry = walker.val / 10;
+        walker.val = walker.val % 10;
+        if(l1.next == null && l2.next == null);
+        else if(l1.next == null)
+        {
+            do
             {
-                if(nums[i] + nums[j] == target)
-                {
-                    arr[0] = i;
-                    arr[1] = j;
-                    return arr;
-                }
+                l2 = l2.next;
+                walker.next = new ListNode();
+                walker = walker.next;
+                walker.val = l2.val + carry;
+                carry = walker.val / 10;
+                walker.val = walker.val % 10;
             }
+            while(l2.next != null);
+        }
+        else
+        {
+            do
+            {
+                l1 = l1.next;
+                walker.next = new ListNode();
+                walker = walker.next;
+                walker.val = l1.val + carry;
+                carry = walker.val / 10;
+                walker.val = walker.val % 10;
+            }
+            while(l1.next != null);
         }
 
-        return arr;
+        if(carry == 1)
+        {
+            walker.next = new ListNode();
+            walker = walker.next;
+            walker.val = 1;
+        }
+
+        return ret;
+    }
+}
+
+public class ListNode {
+    public int val;
+    public ListNode next;
+    public ListNode(int val=0, ListNode next=null) {
+        this.val = val;
+        this.next = next;
     }
 }
