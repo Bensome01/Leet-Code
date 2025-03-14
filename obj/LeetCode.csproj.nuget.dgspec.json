@@ -13,7 +13,6 @@
         "packagesPath": "C:\\Users\\Ben W\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Ben W\\Desktop\\Code\\LeetCode\\obj\\",
         "projectStyle": "PackageReference",
-        "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
           "C:\\Users\\Ben W\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],

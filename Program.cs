@@ -4,13 +4,23 @@ using System.Text;
 
 //var tests = File.ReadAllLines("./tests.txt").ToList();
 
-Console.WriteLine(Leet.Method(1));
+var x = 121;
+
+Console.WriteLine(Leet.IsPalindrome(x));
 
 
 static class Leet
 {
-    public static void Method()
-    {
-        //
+    public static bool IsPalindrome(int x) {
+        string numString = x.ToString();
+
+        for(int i = 0; i < numString.Length / 2; i++)
+        {
+            if(numString[i] != numString[numString.Length - i - 1])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
