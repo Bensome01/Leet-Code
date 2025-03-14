@@ -4,79 +4,35 @@ using System.Text;
 
 //var tests = File.ReadAllLines("./tests.txt").ToList();
 
-var l1 = new ListNode(2,
-    new ListNode(4,
-        new ListNode(3)));
-var l2 = new ListNode(52,
-    new ListNode(6,
-        new ListNode(4)));
+var s = "abcabcbb";
 
-Console.WriteLine(Leet.AddTwoNumbers(l1, l2));
+Console.WriteLine(Leet.LengthOfLongestSubstring(s));
 
 
 static class Leet
 {
-    public static ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode ret = new ListNode();
-        ListNode walker = ret;
-        int carry = 0;
-        while(l1.next != null && l2.next != null)
+    public static int LengthOfLongestSubstring(string s) {
+        int length = 0;
+        int windowStart = 0;
+        int windowEnd = 0;
+        Dictionary<char, int> CurSubStr = new Dictionary<char, int>();
+
+        while(windowEnd < s.Length)
         {
-            walker.val = l1.val + l2.val + carry;
-            carry = walker.val / 10;
-            walker.val = walker.val % 10;
-            l1 = l1.next;
-            l2 = l2.next;
-            walker.next = new ListNode();
-            walker = walker.next;
-        }
-        walker.val = l1.val + l2.val + carry;
-        carry = walker.val / 10;
-        walker.val = walker.val % 10;
-        if(l1.next == null && l2.next == null);
-        else if(l1.next == null)
-        {
-            do
+            if(!CurSubStr.ContainsKey(s[windowEnd]))
             {
-                l2 = l2.next;
-                walker.next = new ListNode();
-                walker = walker.next;
-                walker.val = l2.val + carry;
-                carry = walker.val / 10;
-                walker.val = walker.val % 10;
+                CurSubStr.Add(s[windowEnd], windowEnd);
+                length = Math.Max(length, CurSubStr.Count);
+                windowEnd++;
             }
-            while(l2.next != null);
-        }
-        else
-        {
-            do
+            else
             {
-                l1 = l1.next;
-                walker.next = new ListNode();
-                walker = walker.next;
-                walker.val = l1.val + carry;
-                carry = walker.val / 10;
-                walker.val = walker.val % 10;
+                CurSubStr.Remove(s[windowStart]);
+                windowStart++;
             }
-            while(l1.next != null);
         }
 
-        if(carry == 1)
-        {
-            walker.next = new ListNode();
-            walker = walker.next;
-            walker.val = 1;
-        }
 
-        return ret;
-    }
-}
-
-public class ListNode {
-    public int val;
-    public ListNode next;
-    public ListNode(int val=0, ListNode next=null) {
-        this.val = val;
-        this.next = next;
+        return length;
     }
 }
