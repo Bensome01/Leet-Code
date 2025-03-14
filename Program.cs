@@ -13,70 +13,39 @@ foreach (var test in tests)
 
 static class Leet
 {
-    public static int UniquePaths(int m, int n) {
-        //m => y, n => x
-        var grid = Enumerable.Range(0, m)
-            .Select(row => new int[n])
-            .ToArray();
-        grid[0][0] = 1;
+    public static int UniquePaths(int m, int n)
+    {
+        /*
+         * nCr = (m + n - 2)! / ((m - 1)! (n - 1)!)
+         * T-Complexity = O(m * n)
+         *
+         * Could simplify to
+         * nCr = (m + n - 2) * (m + n - 3) * ... * (m + n - n) / (n - 1)!
+         * or
+         * nCr = (m + n - 2) * (m + n - 3) * ... * (n + m - m) / (m - 1)!
+         * and optimize off of these to obtain O(min(m, n))
+         * Note: this also keeps the numbers small when implemented properly
+         */
         
-
-        var nextSteps = new Queue<Coordinate>();
+        var calculation = 1l;
+        var multiple = m + n - 2;
         
-        if (m > 1)
+        for (var div = 1; multiple >= Math.Max(m, n); div++)
         {
-            nextSteps.Enqueue(new Coordinate(0, 1));
-        }
-
-        if (n > 1)
-        {
-            nextSteps.Enqueue(new Coordinate(1, 0));
-        }
-
-        while (nextSteps.Count > 0)
-        {
-            var nextStep = nextSteps.Dequeue();
-        
-            grid[nextStep.y][nextStep.x] = 0;
-            
-            if (nextStep.y > 0)
-            {
-                grid[nextStep.y][nextStep.x] += grid[nextStep.y - 1][nextStep.x];
-            }
-        
-            if (nextStep.x > 0)
-            {
-                grid[nextStep.y][nextStep.x] += grid[nextStep.y][nextStep.x - 1];
-            }
-            
-            var moveDown = new Coordinate(nextStep.x, nextStep.y + 1);
-            var moveRight = new Coordinate(nextStep.x + 1, nextStep.y);
-        
-            if (moveDown.y < m)
-            {
-                nextSteps.Enqueue(moveDown);
-            }
-        
-            if (moveRight.x < n)
-            {
-                nextSteps.Enqueue(moveRight);
-            }
+            calculation = (calculation * multiple) / div;
+            multiple--;
         }
         
-        return grid[m - 1][n - 1];
+        return (int) calculation;
     }
 
-    // private static void PrintGrid(int[][] grid)
-    // {
-    //     foreach(var row in grid)
-    //     {
-    //         foreach (var column in row)
-    //         {
-    //             Console.Write(column + " ");
-    //         }
-    //         Console.WriteLine();
-    //     }
-    // }
-    
-    private record Coordinate(int x, int y);
+    private static long Factorial(int n)
+    {
+        if (n == 0)
+        {
+            return 1;
+        }
+        
+        return Enumerable.Range(1, n).Aggregate(1l, (x, y) => x * y);
+    }
 }
