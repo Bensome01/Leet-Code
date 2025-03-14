@@ -4,13 +4,13 @@ using System.Text;
 
 //var tests = File.ReadAllLines("./tests.txt").ToList();
 
-Console.WriteLine(Leet.Method(1));
+Console.WriteLine(Leet.Method());
 
 
 static class Leet
 {
-    public static void Method()
+    public static int Method()
     {
-        //
+        return 1;
     }
 }
