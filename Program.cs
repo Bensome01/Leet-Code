@@ -2,7 +2,7 @@
 
 using System.Text;
 
-//var tests = File.ReadAllLines("./tests.txt").ToList();
+var tests = File.ReadAllLines("./../../../tests.txt").ToList();
 
 Console.WriteLine(Leet.Method());
 
